@@ -1,0 +1,29 @@
+public class OverdraftAccount extends BankAccount {
+    private static final double OVERDRAFT_LIMIT = -500.0;
+
+    @Override
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.printf("Deposited: $%.2f | New balance: $%.2f%n", amount, balance);
+        } else {
+            System.out.println("Deposit amount must be positive.");
+        }
+    }
+
+    @Override
+    public void withdraw(double amount) {
+        if (amount <= 0) {
+            System.out.println("Withdrawal amount must be positive.");
+            return;
+        }
+
+        double newBalance = balance - amount;
+        if (newBalance >= OVERDRAFT_LIMIT) {
+            balance = newBalance;
+            System.out.printf("Withdrew: $%.2f | New balance: $%.2f%n", amount, balance);
+        } else {
+            System.out.printf("Withdrawal denied. Overdraft limit of $%.2f exceeded.%n", OVERDRAFT_LIMIT);
+        }
+    }
+}
